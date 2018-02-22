@@ -2,16 +2,18 @@ import socket
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-port = 1111
+port = 11113
 
 s.bind(('',port))
 
 s.listen(5)
-
+c,addr = s.accept()
+c.send("Thank Mr.Client! It is I who talks\n")
 while(True):
-    c,addr = s.accept()
+
     print("Connection from", addr)
     message = raw_input(">>> ")
-    
-    c.send("Thank Mr.Client! Start chatting...\n")
-    c.close()
+    if message == 'exit':
+        c.close()
+    else:
+        c.send(message)
