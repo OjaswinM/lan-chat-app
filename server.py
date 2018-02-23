@@ -4,14 +4,14 @@ s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
 port = 1111
 
-s.bind(('',port))
+s.bind(('127.0.0.1',port))
 
 s.listen(5)
+conn, addr = s.accept()
+print "Connected to", str(conn) + ": " + str(addr)
 
 while(True):
-    c,addr = s.accept()
-    print("Connection from", addr)
-    message = raw_input(">>> ")
-    
-    c.send("Thank Mr.Client! Start chatting...\n")
-    c.close()
+    data = conn.recv(4096)
+    print(data)
+    message = raw_input('>')
+    conn.send(message)
