@@ -8,6 +8,8 @@ c.connect(('127.0.0.1',port))
 
 while(True):
     message = raw_input('>')
+    if message == 'quit':
+        c.send("Disconnecting")
+        c.close()
+        break
     c.send(message)
-    data = c.recv(4096)
-    print "Message from server: ", data

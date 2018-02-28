@@ -13,5 +13,3 @@ print "Connected to", str(conn) + ": " + str(addr)
 while(True):
     data = conn.recv(4096)
     print(data)
-    message = raw_input('>')
-    conn.send(message)
