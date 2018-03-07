@@ -3,28 +3,17 @@ import socket, threading
 def acceptClient(server_socket):
     while True:
         socket, address = server_socket.accept()
-        name = socket.recv(1024).decode()
-        connected.append((name, socket))
-        print(name, "is now connected.")
-        serve = threading.Thread(target = serveClient, args = (socket, ))
+        connected.append((address, socket))
+        print("<" + str(address[0]) + ":" + str(address[1]) + ">", "is now connected.")
+        serve = threading.Thread(target = serveClient, args = (address, socket))
         serve.start()
 
-# def printOnServer():
-#     while True:
-#         for users in connected:
-#             try:
-#                 data = users[1].recv(4096).decode()
-#                 print(data)
-#                 if not data:
-#                     pass
-#             except:
-#                 pass
-def serveClient(client):
+def serveClient(address, client):
     # print("started new thread for", client)
     while True:
         try:
             data = client.recv(4096).decode()
-            print(data)
+            print("<" + str(address[0]) + ":" + str(address[1]) + ">", data)
         except:
             pass
 
