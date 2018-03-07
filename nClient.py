@@ -14,13 +14,14 @@ def sendToServer(client_socket):
         client_socket.send(message.encode())
         if message == 'quit':
             c.close()
+
             break
 
 if __name__ == '__main__':
     c = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
     host = '192.168.0.4'
-    port = 12355
+    port = 12352
 
     c.connect((host, port))
 
