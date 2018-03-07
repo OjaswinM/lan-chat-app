@@ -20,8 +20,10 @@ def serveClient(address, client, name):
             if data == 'quit':
                 # data = "is disconnecting.."
                 # print("<" + str(address[0]) + ":" + str(address[1]) + ">", data)
-                message = "<" + name + "> is disconnecting..."
-                print("<" + name + ">", data)
+                message =  name + " is disconnecting..."
+                print(message)
+                break
+            elif data == '':
                 break
             else:
                 message = "<" + name + "> " + data
@@ -41,7 +43,7 @@ if __name__ == '__main__':
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     host = '192.168.0.4'
-    port = 12355
+    port = 12352
 
     s.bind((host, port))
 
