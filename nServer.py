@@ -40,8 +40,8 @@ if __name__ == '__main__':
     connected = []
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    host = 'localhost'
-    port = 12349
+    host = '192.168.0.4'
+    port = 12355
 
     s.bind((host, port))
 
