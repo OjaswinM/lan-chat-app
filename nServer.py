@@ -23,6 +23,9 @@ def serveClient(address, client, name):
                 message =  name + " is disconnecting..."
                 print(message)
                 break
+            elif data == '/users':
+                print(name, "is requesting user list.")
+                client.send("/printusers".encode())
             elif data == '':
                 break
             else:
@@ -42,7 +45,7 @@ if __name__ == '__main__':
     connected = []
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    host = '192.168.0.4'
+    host = 'localhost'
     port = 12352
 
     s.bind((host, port))

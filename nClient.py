@@ -4,13 +4,16 @@ def reciveFromServer(client_socket):
     while True:
         try:
             serverMessage = client_socket.recv(4096).decode()
-            print("\r" + serverMessage)
+            if serverMessage == "/printusers":
+                print("i am pringint list of users hehexd")
+            else:
+                print("\r" + serverMessage)
         except:
             pass
 
 def sendToServer(client_socket):
     while(True):
-        message = input('>')
+        message = input()
         client_socket.send(message.encode())
         if message == 'quit':
             c.close()
@@ -20,7 +23,7 @@ def sendToServer(client_socket):
 if __name__ == '__main__':
     c = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-    host = '192.168.0.4'
+    host = 'localhost'
     port = 12352
 
     c.connect((host, port))
