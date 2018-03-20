@@ -17,7 +17,6 @@ def sendToServer(client_socket):
         client_socket.send(message.encode())
         if message == 'quit':
             c.close()
-
             break
 
 if __name__ == '__main__':
