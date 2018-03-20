@@ -8,6 +8,7 @@ def acceptClient(server_socket):
         socket.send("Welcome to the server! Please enter your name:- ".encode())
         name = socket.recv(4096).decode()
         connected.append((address, socket, name))
+        print(connected)
         print( name + " is now connected.")
         serve = threading.Thread(target = serveClient, args = (address, socket, name))
         serve.start()
@@ -18,10 +19,9 @@ def serveClient(address, client, name):
         try:
             data = client.recv(4096).decode()
             if data == 'quit':
-                # data = "is disconnecting.."
-                # print("<" + str(address[0]) + ":" + str(address[1]) + ">", data)
                 message =  name + " is disconnecting..."
                 print(message)
+                deleteNode(client)
                 break
             elif data == '/users':
                 print(name, "is requesting user list.")
@@ -36,9 +36,15 @@ def serveClient(address, client, name):
             pass
 
 def broadcast(currentClient, name, message):
-    for client in connected:
-        if currentClient not in client:
-            client[1].send(message.encode())
+    for node in connected:
+        if currentClient not in node:
+            node[1].send(message.encode())
+
+def deleteNode(currentClient):
+    for node in connected:
+        if currentClient in node:
+            connected.remove(node)
+        print(connected)
 
 
 if __name__ == '__main__':
