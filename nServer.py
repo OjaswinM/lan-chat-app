@@ -1,4 +1,4 @@
-import socket, threading
+import socket, threading, pickle
 
 def acceptClient(server_socket):
     while True:
@@ -8,7 +8,7 @@ def acceptClient(server_socket):
         socket.send("Welcome to the server! Please enter your name:- ".encode())
         name = socket.recv(4096).decode()
         connected.append((address, socket, name))
-        print( name + " is now connected.")
+        print(name + " is now connected.")
         serve = threading.Thread(target = serveClient, args = (address, socket, name))
         serve.start()
 
@@ -22,10 +22,14 @@ def serveClient(address, client, name):
                 # print("<" + str(address[0]) + ":" + str(address[1]) + ">", data)
                 message =  name + " is disconnecting..."
                 print(message)
-                break
+                return
             elif data == '/users':
                 print(name, "is requesting user list.")
                 client.send("/printusers".encode())
+                printConnectedUsers()
+                dataStream = pickle.dump(connected)
+                client.send(dataStream.encode())
+                break
             elif data == '':
                 break
             else:
@@ -34,7 +38,9 @@ def serveClient(address, client, name):
             broadcast(client, name, message)
         except:
             pass
-
+def printConnectedUsers():
+    for client in connected:
+        print(client[0])
 def broadcast(currentClient, name, message):
     for client in connected:
         if currentClient not in client:

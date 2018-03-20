@@ -1,4 +1,4 @@
-import socket, threading
+import socket, threading, pickle
 
 def reciveFromServer(client_socket):
     while True:
@@ -6,6 +6,9 @@ def reciveFromServer(client_socket):
             serverMessage = client_socket.recv(4096).decode()
             if serverMessage == "/printusers":
                 print("i am pringint list of users hehexd")
+                dataStream = client_socket.recv(4096).decode()
+                connected = pickle.loads(dataStream)
+                print(connected)
             else:
                 print("\r" + serverMessage)
         except:
@@ -16,8 +19,6 @@ def sendToServer(client_socket):
         message = input()
         client_socket.send(message.encode())
         if message == 'quit':
-            c.close()
-
             break
 
 if __name__ == '__main__':
